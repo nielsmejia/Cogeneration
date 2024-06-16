@@ -1,0 +1,54 @@
+# This program will calculate the amount of CO2 produced from burning a mix of fuels to produce
+# electricity and steam in Talara Refinery located in the northern part of Peru
+# First we have to decide if we are going to use the design values or if we want to enter custom information
+
+# Get input from the user
+Type = input("Would you like to use the default design values? (True/False): ").strip()
+
+# Convert the string input to a Boolean value
+if Type.lower() == 'true':
+    Mode = True
+elif Type.lower() == 'false':
+    Mode = False
+else:
+    raise ValueError("Invalid input. Please enter 'True' or 'False'.")
+
+if Mode == True:
+    # We set the design values of the fuels used in the cogeneration unit
+    # Natural Gas in BTU/scf
+    ng_hv = 954.963
+    # Fuel Gas in BTU/scf
+    fg_hv = 793.634
+    # Flexigas in BTU/scf
+    fx_hv = 130.376
+    # Hydrotreated light naphtha in BTU/bbl
+    ln_hv = 4440263.94
+elif Mode == False:
+    ng_hv = input("Enter the heating value of natural gas: ")
+    fg_hv = input("Enter the heating value of fuel gas: ")
+    fx_hv = input("Enter the heating value of flexigas: ")
+    ln_hv = input("Enter the heating value of hydrotreated light naphtha: ")
+
+ng_volume = float(input("Amount of natural gas available in MMSCF: "))
+fg_volume = float(input("Amount of fuel gas available in MMSCF: "))
+fx_volume = float(input("Amount of flexigas available in MMSCF: "))
+ln_volume = float(input("Amount of hydrotreated light naphtha available in BBL: "))
+
+# Amount of energy obtained from the combustion of natural gas
+energy_ng = ng_hv * ng_volume
+# Amount of energy obtained from the combustion of fuel gas
+energy_fg = fg_hv * fg_volume
+# Amount of energy obtained from the combustion of flexigas
+energy_fx = fx_hv * fx_volume
+# Amount of energy obtained from the combustion of hydrotreated light naphtha
+energy_ln = ln_hv * ln_volume
+# Total energy obtained
+energy_total = energy_ng+energy_fg+energy_fx+energy_ln
+energy_total_bfoe = energy_total/6050000
+
+print(f"Heating value of natural gas: {ng_hv} BTU/scf")
+print(f"Heating value of fuel gas: {fg_hv} BTU/scf")
+print(f"Heating value of flexigas: {fx_hv} BTU/scf")
+print(f"Heating value of hydrotreated light naphtha: {ln_hv} BTU/scf")
+print(f"Total energy available: {energy_total} BTU")
+print(f"Barrels of fuel oil equivalent: {energy_total_bfoe:.2f} BFOE")
