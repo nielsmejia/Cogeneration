@@ -29,9 +29,9 @@ elif Mode == False:
     fx_hv = input("Enter the heating value of flexigas: ")
     ln_hv = input("Enter the heating value of hydrotreated light naphtha: ")
 
-ng_volume = float(input("Amount of natural gas available in MMSCF: "))
-fg_volume = float(input("Amount of fuel gas available in MMSCF: "))
-fx_volume = float(input("Amount of flexigas available in MMSCF: "))
+ng_volume = float(input("Amount of natural gas available in SCF: "))
+fg_volume = float(input("Amount of fuel gas available in SCF: "))
+fx_volume = float(input("Amount of flexigas available in SCF: "))
 ln_volume = float(input("Amount of hydrotreated light naphtha available in BBL: "))
 
 # Amount of energy obtained from the combustion of natural gas
@@ -45,10 +45,36 @@ energy_ln = ln_hv * ln_volume
 # Total energy obtained
 energy_total = energy_ng+energy_fg+energy_fx+energy_ln
 energy_total_bfoe = energy_total/6050000
+electric_power = energy_total/221410000
+very_high_pressure_steam = energy_total*15359/22141/1000000
+high_pressure_steam = energy_total*2160/22141/1000000
+medium_pressure_steam = energy_total*6826/22141/1000000
+low_pressure_steam_and_condensate = energy_total*5374/22141/1000000
+co2_natural_gas = 0.0002725492*ng_volume+59.32*ng_volume/1000
+co2_fuel_gas = 0.00389356*fg_volume+48.24*fg_volume/1000
+co2_flexigas = 0.00231945*fx_volume+14.43*fx_volume/1000
+co2_nafta_liviana=372.04*ln_volume
+co2_total = co2_natural_gas+co2_fuel_gas+co2_flexigas+co2_nafta_liviana
 
-print(f"Heating value of natural gas: {ng_hv} BTU/scf")
-print(f"Heating value of fuel gas: {fg_hv} BTU/scf")
-print(f"Heating value of flexigas: {fx_hv} BTU/scf")
-print(f"Heating value of hydrotreated light naphtha: {ln_hv} BTU/scf")
-print(f"Total energy available: {energy_total} BTU")
-print(f"Barrels of fuel oil equivalent: {energy_total_bfoe:.2f} BFOE")
+if energy_total < 22141000000:
+
+  print(f"Heating value of natural gas: {ng_hv} BTU/scf")
+  print(f"Heating value of fuel gas: {fg_hv} BTU/scf")
+  print(f"Heating value of flexigas: {fx_hv} BTU/scf")
+  print(f"Heating value of hydrotreated light naphtha: {ln_hv} BTU/scf")
+  print(f"Total energy available: {energy_total:.2f} BTU")
+  print(f"Total energy available: {energy_total/1000000:.2f} MMBTU")
+  print(f"Barrels of fuel oil equivalent: {energy_total_bfoe:.2f} BFOE")
+  print(f"Total electric power: {electric_power:.2f} MW")
+  print(f"Very High Pressure Steam: {very_high_pressure_steam:.2f} ton/d")
+  print(f"High Pressure Steam: {high_pressure_steam:.2f} ton/d")
+  print(f"Medium Pressure Steam: {medium_pressure_steam:.2f} ton/d")
+  print(f"Low Pressure Steam plus condensate: {low_pressure_steam_and_condensate:.2f} ton/d")
+  print(f"Total CO2 produced from natural gas: {co2_natural_gas:.2f} Kg CO2")
+  print(f"Total CO2 produced from fuel gas: {co2_fuel_gas:.2f} Kg CO2")
+  print(f"Total CO2 produced from flexigas: {co2_flexigas:.2f} Kg CO2")
+  print(f"Total CO2 produced from nafta liviana: {co2_nafta_liviana:.2f} Kg CO2")
+  print(f"Total CO2 produced: {co2_total:.2f} Kg CO2")
+  print(f"Total CO2 produced: {co2_total/1000:.2f} Ton CO2")
+else:
+  print("Too much energy, please reduce quantities")
